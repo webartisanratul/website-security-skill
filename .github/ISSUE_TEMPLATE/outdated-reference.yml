@@ -1,0 +1,23 @@
+name: Outdated fact or broken link
+description: A volatile (⏱) fact, plan limit, version, tool flag or link is out of date
+labels: [outdated]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Where
+      description: File and section.
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What the document says, and what is true now
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Primary source URL
+    validations:
+      required: true

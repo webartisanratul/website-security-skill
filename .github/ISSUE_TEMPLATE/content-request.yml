@@ -1,0 +1,27 @@
+name: Content request
+description: Propose a new control, attack family, stack recipe or checklist item
+labels: [enhancement]
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should be added
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it belongs here (who needs it, what risk it addresses)
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Primary sources you would base it on
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: Defensive guidance only (no exploit chains or instructions for attacking systems I do not own)
+          required: true

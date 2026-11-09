@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+
+permissions:
+  contents: write     # needed only to publish the release; this workflow runs only for protected release tags
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+
+      - name: Install linters
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq php-cli shellcheck
+          python -m pip install --quiet pyyaml==6.0.2
+
+      - name: Tag must equal VERSION
+        run: |
+          if [ "v$(cat VERSION)" != "$GITHUB_REF_NAME" ]; then
+            echo "tag $GITHUB_REF_NAME does not match VERSION $(cat VERSION)" >&2
+            exit 1
+          fi
+
+      - name: "Validate (release mode, no unreplaced placeholders)"
+        run: python3 scripts/validate.py --release
+
+      - name: Lint code blocks
+        run: python3 scripts/lint_code_blocks.py --require-tools
+
+      - name: Installer regression tests
+        run: bash tests/test_install.sh
+
+      - name: Build artifacts
+        run: python3 scripts/build_release.py --skip-validate --check
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=""
+          case "$GITHUB_REF_NAME" in *-*) flags="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" dist/website-security-*.zip dist/SHA256SUMS \
+            --title "$GITHUB_REF_NAME" --notes-file dist/RELEASE_NOTES.md $flags

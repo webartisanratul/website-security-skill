@@ -1,0 +1,26 @@
+name: Installer or tooling bug
+description: Problem with scripts/install.sh, the validators, the release build or the workflows
+labels: [tooling]
+body:
+  - type: markdown
+    attributes:
+      value: For vulnerabilities (for example path traversal or overwrite in the installer) use private reporting; see SECURITY.md.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened and what you expected
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Command and output
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment (OS, shell, Python version, release version)
+    validations:
+      required: true

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability in the tooling or release process
+    url: https://github.com/webartisanratul/website-security-skill/security/advisories/new
+    about: Private reporting for installer, workflow or release problems, and for guidance that could introduce serious vulnerabilities. See SECURITY.md.

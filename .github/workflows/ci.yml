@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+
+      - name: Install linters
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq php-cli shellcheck
+          python -m pip install --quiet pyyaml==6.0.2
+
+      - name: Validate repository (structure, links, anchors, versions, freshness)
+        run: python3 scripts/validate.py
+
+      - name: Lint code blocks in the documents
+        run: python3 scripts/lint_code_blocks.py --require-tools
+
+      - name: Lint repository scripts
+        run: |
+          shellcheck scripts/install.sh tests/test_install.sh
+          python3 -m py_compile scripts/*.py
+
+      - name: Installer regression tests
+        run: bash tests/test_install.sh
+
+      - name: Build release artifact (reproducibility and structure check)
+        run: python3 scripts/build_release.py --skip-validate --check
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,13 @@
+# Link checker configuration for lychee (used by .github/workflows/links.yml)
+max_concurrency = 8
+max_retries = 2
+retry_wait_time = 4
+timeout = 30
+accept = ["200..=299", "429"]
+exclude = [
+  '^https?://(localhost|127\.0\.0\.1)',
+  '^https?://([a-z0-9.-]+\.)?example\.(com|net|org)',
+  '^https://github\.com/OWNER/',
+  '^https://challenges\.cloudflare\.com/turnstile/v0/siteverify$',
+  '<[^>]+>',
+]

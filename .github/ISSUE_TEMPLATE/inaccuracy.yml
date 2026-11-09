@@ -1,0 +1,49 @@
+name: Inaccurate or unsafe guidance
+description: A statement, example or recommendation is wrong, misleading or could lead to an insecure implementation
+labels: [inaccuracy]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. If following the text could introduce a **serious** vulnerability, please use private reporting instead (see SECURITY.md).
+  - type: input
+    id: location
+    attributes:
+      label: Where
+      description: File and section (for example `WEBSITE_SECURITY_SKILL.md`, Part 5.2).
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Primary source
+      description: Link to the official documentation or standard that shows the correct information.
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact if followed as written
+      options:
+        - Could cause an insecure implementation
+        - Factual error with no security impact
+        - Unclear or confusing
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: Suggested fix
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I checked the latest release
+          required: true
