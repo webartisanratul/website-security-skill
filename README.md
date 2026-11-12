@@ -37,7 +37,7 @@ Around them: an [installer](scripts/install.sh) with Claude Code, `AGENTS.md`, C
 
 ```bash
 git clone --branch v1.0.0 https://github.com/webartisanratul/website-security-skill.git     # a released, pinned version
-REPO/scripts/install.sh --dest /path/to/your/project --target claude
+cd website-security-skill && scripts/install.sh --dest /path/to/your/project --target claude
 ```
 
 This places the skill in `.claude/skills/website-security/` (commit it). Personal install:
