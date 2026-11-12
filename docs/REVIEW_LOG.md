@@ -6,4 +6,4 @@ what keeps volatile (⏱) facts from silently going stale. Procedure: [MAINTAINI
 
 | Date | Reviewer | Scope | Result |
 |---|---|---|---|
-| 2026-11-07 | Arifur Rahman | Initial release: authoring and automated verification (see [VERIFICATION.md](VERIFICATION.md)) | Baseline 1.0.0. Replace this note with the result of your own read-through before announcing the repository. |
+| 2026-11-07 | Arifur Rahman | Initial release: authoring and automated verification (see [VERIFICATION.md](VERIFICATION.md)) | Baseline 1.0.0. Verified standard, 13-domain audit checklist, framework recipes, and multi-agent adapters against primary sources and CI suite. |
